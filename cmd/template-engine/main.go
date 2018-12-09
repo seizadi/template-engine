@@ -2,31 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/pflag"
 	"log"
 	"os"
-	"strings"
 	
 	"github.com/codegangsta/cli"
 	"github.com/seizadi/template-engine/cmd/template-engine/commands"
-	"github.com/spf13/viper"
 )
 
 const version = "0.1"
-
-func init() {
-	pflag.Parse()
-	viper.BindPFlags(pflag.CommandLine)
-	viper.AutomaticEnv()
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-	viper.AddConfigPath(viper.GetString("config.source"))
-	if viper.GetString("config.file") != "" {
-		viper.SetConfigName(viper.GetString("config.file"))
-		if err := viper.ReadInConfig(); err != nil {
-			log.Fatalf("cannot load configuration: %v", err)
-		}
-	}
-}
 
 func main() {
 	app := cli.NewApp()
@@ -35,9 +18,36 @@ func main() {
 	app.Author = "Soheil Eizadi"
 	app.Email = "seizadi@gmail.com"
 	app.Version = version
-	app.Flags = []cli.Flag{}
-	
-	fmt.Printf ("Logging Level %s\n",viper.GetString("logging.level"))
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:   "config_dir",
+			Usage:  "path to the config directory",
+			Value:  "config/",
+			EnvVar: "CONFIG_SOURCE",
+		},
+		cli.StringFlag{
+			Name:   "config_file",
+			Usage:  "path to the config file",
+			Value:  "config/",
+			EnvVar: "CONFIG_FILE",
+		},
+		cli.StringFlag{
+			Name:   "apikey",
+			Usage:  "api key for CMDB access",
+			Value:  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2NvdW50SUQiOjF9.GsXyFDDARjXe1t9DPo2LIBKHEal3O7t3vLI3edA7dGU",
+			EnvVar: "API_KEY",
+		},
+		cli.StringFlag{
+			Name:   "cmdb",
+			Usage:  "Host address to CMDB",
+			Value:  "localhost:9090",
+			EnvVar: "CMDB_HOST",
+		},
+		cli.BoolFlag{
+			Name:  "debug, d",
+			Usage: "enable debug logging",
+		},
+	}
 	
 	app.Before = func(c *cli.Context) error {
 		return nil

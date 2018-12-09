@@ -11,12 +11,24 @@ var Commands = []cli.Command{
 		Action: createManifest,
 		Flags: []cli.Flag{
 			cli.StringFlag{
-				Name:  "path, p",
-				Usage: "path to the github repo files",
+				Name:  "cloud, c",
+				Usage: "Cloud Provider account to select",
 			},
 			cli.StringFlag{
-				Name:  "repo, r",
-				Usage: "path to the resolved files",
+				Name:  "region, r",
+				Usage: "Region to select",
+			},
+			cli.StringFlag{
+				Name:  "environment, e",
+				Usage: "Environment to use for processing",
+			},
+			cli.StringFlag{
+				Name:  "application, a",
+				Usage: "Application to use for processing",
+			},
+			cli.StringFlag{
+				Name:  "path, p",
+				Usage: "Local Chart path, if not specified pull from archive",
 			},
 		},
 	},
