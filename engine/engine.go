@@ -166,7 +166,9 @@ func CreateValues(req TemplateRequest, providers *pb.ListCloudProvidersResponse)
 }
 
 func GetArchiveFile(app *pb.Application) string {
-	return app.VersionTag.Repo + "/" + app.VersionTag.Version + ".zip"
+	// TODO - Implement this feature; I deprecated the Repo field for VersionTag
+	// return app.VersionTag.Repo + "/" + app.VersionTag.Version + ".zip"
+	return ""
 }
 
 func ResolveManifest(path string) error {
